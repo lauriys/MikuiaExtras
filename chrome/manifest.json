@@ -4,6 +4,11 @@
     "short_name": "ffz-miku",
     "description": "Levels and stuff on Twitch chat.",
     "version": "0.0.1",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
     "content_scripts": [{
         "all_frames": true,
         "js": ["script.js"],
