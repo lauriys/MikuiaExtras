@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "FFZ: Mikuia Extras",
+    "short_name": "ffz-miku",
+    "description": "Levels and stuff on Twitch chat.",
+    "version": "0.0.1",
+    "content_scripts": [{
+        "all_frames": true,
+        "js": ["script.js"],
+        "matches": ["*://*.twitch.tv/*"],
+        "exclude_globs": ["*://api.twitch.tv/*"]
+    }],
+    "permissions": [
+        "*://*.mikuia.tv/*",
+        "*://*.twitch.tv/*"
+    ]
+}
