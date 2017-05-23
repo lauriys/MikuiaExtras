@@ -50,9 +50,11 @@ var determineColor = (level) => {
     return color;
 }
 
-var determineTextColor = (level) => {
-    if(level < 100) {
+var determineTextColor = (level, dark) => {
+    if(level < 100 && !dark) {
         return 'black';
+    } if(level < 100 && dark) {
+        return 'white';
     } else {
         if(brightColors.indexOf(determineColor(level)) > -1) {
             return 'black';
@@ -103,18 +105,22 @@ var doCSS = () => {
         top: 5px; \
         text-align: center; \
         width: 14px; \
-    } \
-    ';
+    }';
 
     for(var i = 0; i < MAX_LEVELS; i++) {
         css += '.ffz-badge-ffzmiku-level-' + i + ' { \
             border: 2px solid ' + determineColor(i) + '; \
-            color: ' + determineTextColor(i) + '; \
+            color: ' + determineTextColor(i, false) + '; \
         } \
         .ffz-badge-ffzmiku-level-' + i + ':after { \
             content: "' + i + '"; \
+        } \
+        .dark .ffz-badge-ffzmiku-level-' + i + ' { \
+            color: ' + determineTextColor(i, true) + '; \
         }';
     }
+
+    css += '</style>';
 
     $('head').append(css);
 }
