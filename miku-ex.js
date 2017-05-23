@@ -123,6 +123,10 @@ var updateLevel = (roomId, username) => {
     $.get('https://mikuia.tv/api/user/' + username + '/levels/' + roomId).done((stats) => {
         var level = getLevel(stats.experience ? stats.experience : 0);
 
+        if(stats.experience == null || stats.experience == 0) {
+            return;
+        }
+
         if(levels[roomId][username] != null && levels[roomId][username].level != level) {
             api.room_remove_user_badge(roomId, username, 7);
         }
@@ -161,7 +165,23 @@ var init = () => {
             4: 'https://extras.mikuia.tv/icon/72.png'
         }
     });
-    api.user_add_badge('hatsuney', 6, 'idiot');
+
+    api.add_badge('mikuia', {
+        color: '#7a62d3',
+        image: 'https://extras.mikuia.tv/icon/18.png',
+        name: 'mikuia',
+        title: 'Mikuia',
+        click_url: 'https://mikuia.tv',
+        urls: {
+            1: 'https://extras.mikuia.tv/icon/18.png',
+            2: 'https://extras.mikuia.tv/icon/36.png',
+            4: 'https://extras.mikuia.tv/icon/72.png'
+        }
+    });
+
+    // api.remove_user_badge('hatsuney', 6);
+    api.user_add_badge('hatsuney', 5, 'idiot');
+    api.user_add_badge('mikuia', 5, 'mikuia');
 
     api.on('room-add', (roomId) => {
         console.log('Miku: Joined room: ' + roomId);
