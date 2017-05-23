@@ -98,12 +98,12 @@ var check = () => {
 var doCSS = () => {
     var css = '<style>div[class^="ffz-badge-ffzmiku-level-"], div[class*=" ffz-badge-ffzmiku-level-"] { \
         border-radius: 50px; \
+        line-height: 12px; \
+        text-align: center; \
     } \
     div[class^="ffz-badge-ffzmiku-level-"]:after, div[class*=" ffz-badge-ffzmiku-level-"]:after { \
         font-size: 8px; \
-        position: absolute; \
         top: 5px; \
-        text-align: center; \
         width: 14px; \
     }';
 
