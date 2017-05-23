@@ -5,7 +5,7 @@ var api, checkInterval, ffz;
 var enabled = {};
 var levels = {};
 
-var brightColors = ['#b3ee00', '#00ffff'];
+var brightColors = ['#d2d500', '#b3ee00', '#00ffff'];
 var colorThresholds = [
     [10, '#d2d500'],
     [20, '#b3ee00'],
