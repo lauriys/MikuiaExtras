@@ -1,4 +1,5 @@
 var MAX_LEVELS = 333;
+var REFRESH_INTERVAL = 1000 * 60 * 10;
 
 var api, checkInterval, ffz;
 var enabled = {};
@@ -118,6 +119,32 @@ var doCSS = () => {
     $('head').append(css);
 }
 
+var updateLevel = (roomId, username) => {
+    $.get('https://mikuia.tv/api/user/' + username + '/levels/' + roomId).done((stats) => {
+        var level = getLevel(stats.experience ? stats.experience : 0);
+
+        if(levels[roomId][username] != null && levels[roomId][username].level != level) {
+            api.room_remove_user_badge(roomId, username, 7);
+        }
+
+        levels[roomId][username] = {
+            level: level,
+            timestamp: new Date
+        }
+
+        api.room_add_user_badge(roomId, username, 7, {
+            color: determineBackgroundColor(level),
+            id: 'level-' + level,
+            name: 'level-' + level,
+            title: 'Mikuia Level ' + level,
+            click_url: 'https://mikuia.tv/levels/' + roomId
+        });
+        api.retokenize_messages(roomId, username, null, true);
+
+        // console.log(levels);
+    });
+}
+
 var init = () => {
     ffz = FrankerFaceZ.get();
     api = ffz.api('FFZ: Mikuia Extras', 'https://placekitten.com/18/18', '0.0.1', 'ffzmiku');
@@ -135,15 +162,6 @@ var init = () => {
         }
     });
     api.user_add_badge('hatsuney', 6, 'idiot');
-
-    for(var i = 1; i < MAX_LEVELS; i++) {
-        api.add_badge('level-' + i, {
-            color: determineBackgroundColor(i),
-            name: 'level-' + i,
-            title: 'Mikuia Level ' + i,
-            click_url: 'https://mikuia.tv'
-        });
-    }
 
     api.on('room-add', (roomId) => {
         console.log('Miku: Joined room: ' + roomId);
@@ -169,15 +187,12 @@ var init = () => {
 
         if(levels[roomId][username] == null) {
             // console.log('Miku: No levels for ' + username + ' on room ' + roomId);
-            $.get('https://mikuia.tv/api/user/' + username + '/levels/' + roomId).done((stats) => {
-                var level = getLevel(stats.experience ? stats.experience : 0);
-                levels[roomId][username] = level;
-
-                api.room_add_user_badge(roomId, username, 7, 'level-' + level);
-                api.retokenize_messages(roomId, username, null, true);
-
-                // console.log(levels);
-            });
+            updateLevel(roomId, username);
+        } else {
+            var now = new Date
+            if(now - levels[roomId][username].timestamp > REFRESH_INTERVAL) {
+                updateLevel(roomId, username);
+            }
         }
 
         // console.log(data);
