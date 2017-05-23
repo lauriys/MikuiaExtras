@@ -75,7 +75,7 @@ var getLevel = (experience) => {
     while(experience >= getExperience(level)) {
         level++;
     }
-    return level;
+    return level - 1;
 }
 
 var check = () => {
@@ -106,7 +106,7 @@ var doCSS = () => {
     } \
     ';
 
-    for(var i = 1; i < MAX_LEVELS; i++) {
+    for(var i = 0; i < MAX_LEVELS; i++) {
         css += '.ffz-badge-ffzmiku-level-' + i + ' { \
             border: 2px solid ' + determineColor(i) + '; \
             color: ' + determineTextColor(i) + '; \
