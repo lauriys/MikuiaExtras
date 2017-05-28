@@ -185,8 +185,8 @@ var init = () => {
         }
     });
 
-    // api.remove_user_badge('hatsuney', 6);
-    api.user_add_badge('hatsuney', 5, 'idiot');
+    // api.remove_user_badge('lauriys', 6);
+    api.user_add_badge('lauriys', 5, 'idiot');
     api.user_add_badge('mikuia', 5, 'mikuia');
 
     api.on('room-add', (roomId) => {
